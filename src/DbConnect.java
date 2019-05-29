@@ -34,4 +34,26 @@ public class DbConnect {
         }
     }
 
+    public void addSpeler(String n, String a, String p, String w, String t, String e, String geb, String ges, int r){
+        try{
+            String query = "INSERT INTO `18146481`.`Speler`(`naam`,`adres`,`postcode`,`woonplaats`,`telefoon`,`email`,`geboortedatum`,`geslacht`,`rating`)" +
+                    "VALUES(" +
+                    "'" + n + "'" + ","+
+                    "'" + a + "'" + ","+
+                    "'" + p + "'" + ","+
+                    "'" + w + "'" + ","+
+                    "'" + t + "'" + ","+
+                    "'" + e + "'" + ","+
+                    "'" + geb + "'" + ","+
+                    "'" + ges + "'" + ","+
+                    r + ");";
+
+            st.executeUpdate(query);
+            System.out.println("DONE");
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
+
 }
