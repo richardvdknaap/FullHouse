@@ -1,0 +1,7 @@
+Database name:  18146481
+Login name   :  18146481
+Password     :  shiesh7oCh
+
+Connecten naar de database binnen en buiten de HHS:
+Hostname     : meru.hhs.nl
+Mysql port   : 3306 (default port).
