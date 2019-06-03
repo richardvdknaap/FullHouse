@@ -55,5 +55,33 @@ public class DbConnect {
             System.out.println(ex);
         }
     }
+    public void addMaster(){
+        try{
+            String query = "";
+            st.executeUpdate(query);
+            System.out.println("DONE");
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
+    public void addToernooi(String t, String c, int a, double p, String b, String e){
+        try{
+            String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`) "+
+                    "VALUES(" +
+                    "'" + t + "'" + ","+
+                    "'" + c + "'" + ","+
+                    a + ","+
+                    p + ","+
+                    "'" + b + "'" + ","+
+                    "'" + e + "'" + ");";
+
+            System.out.println(query);
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
+
 
 }
