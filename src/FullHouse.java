@@ -74,6 +74,7 @@ public class FullHouse {
 
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                new RegToernooi();
             }
         });
 
@@ -117,13 +118,13 @@ public class FullHouse {
         c.gridx = 0;
         c.gridy = 4;
         c.weightx = 0.5;
-        p.add(masteraan,c);
+        p.add(toeraan,c);
 
         // toernooi aanmaken
         c.gridx = 0;
         c.gridy = 5;
         c.weightx = 0.5;
-        p.add(toeraan,c);
+        p.add(masteraan,c);
 
 
 
