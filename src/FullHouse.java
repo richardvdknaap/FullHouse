@@ -31,7 +31,7 @@ public class FullHouse {
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton reg = new JButton("Registreren");
+        JButton reg = new JButton("Klant aanmaken");
         reg.setPreferredSize(new Dimension(200,50));
         reg.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +50,7 @@ public class FullHouse {
             }
         });
 
-        JButton toer = new JButton("Toernooi Weergeven");
+        JButton toer = new JButton("Toernooi weergeven");
         toer.setPreferredSize(new Dimension(200,50));
         toer.addActionListener(new ActionListener() {
 
@@ -87,10 +87,19 @@ public class FullHouse {
             }
         });
 
+        JButton klant = new JButton("Klanten weergeven");
+        klant.setPreferredSize(new Dimension(200,50));
+        klant.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+            }
+        });
+
         c.insets = new Insets(0,0,5,0);
 
         // Butoons x en y
-        // Registratie
+        // Klant aanmaken
         c.gridy = 0;
         c.gridx = 0;
         c.weightx = 0.5;
@@ -102,29 +111,35 @@ public class FullHouse {
         c.weightx = 0.5;
         g.add(inl,c);
 
-        // Toernooi weergeven
+        // Masterclass aanmaken
         c.gridx = 0;
         c.gridy = 2;
+        c.weightx = 0.5;
+        p.add(toeraan,c);
+
+        // Toernooi aanmaken
+        c.gridx = 0;
+        c.gridy = 3;
+        c.weightx = 0.5;
+        p.add(masteraan,c);
+
+        // Klanten weergeven
+        c.gridx = 0;
+        c.gridy = 4;
+        c.weightx = 0.5;
+        p.add(klant,c);
+
+        // Toernooi weergeven
+        c.gridx = 0;
+        c.gridy = 5;
         c.weightx = 0.5;
         p.add(toer,c);
 
         // Maasterclass weergeven
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 6;
         c.weightx = 0.5;
         p.add(master,c);
-
-        // Maasterclass aanmaken
-        c.gridx = 0;
-        c.gridy = 4;
-        c.weightx = 0.5;
-        p.add(toeraan,c);
-
-        // toernooi aanmaken
-        c.gridx = 0;
-        c.gridy = 5;
-        c.weightx = 0.5;
-        p.add(masteraan,c);
 
 
 
