@@ -65,17 +65,18 @@ public class DbConnect {
             System.out.println(ex);
         }
     }
-    public void addToernooi(String t, String c, int a, double p, String b, String e){
+    public void addToernooi(String t, String c, int a, double p, String b, String e, String d){
         try{
-            String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`) "+
+            String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`,`beginDatum`) "+
                     "VALUES(" +
                     "'" + t + "'" + ","+
                     "'" + c + "'" + ","+
                     a + ","+
                     p + ","+
                     "'" + b + "'" + ","+
-                    "'" + e + "'" + ");";
-
+                    "'" + e + "'" + ","+
+                    "'" + d + "'" + ");";
+            st.executeUpdate(query);
             System.out.println(query);
         }
         catch (Exception ex){
