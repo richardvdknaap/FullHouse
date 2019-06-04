@@ -54,27 +54,19 @@ public class DbConnect {
             System.out.println(ex);
         }
     }
-    public void addMaster(int p, String bt, String et, String dat, int minr, double pri, String bet){
-        try{
-            String query = "INSERT INTO `18146481`.`Masterclass`(`plaatsen`,`beginTijd`,`eindTijd`,`datum`,`minRating`,`prijs`,`betaald`) "+
+    public void addMaster(int p, String bt, String et, String dat, int minr, double pri, String bet) {
+        try {
+            String query = "INSERT INTO `18146481`.`Masterclass`(`plaatsen`,`beginTijd`,`eindTijd`,`datum`,`minRating`,`prijs`,`betaald`) " +
                     "VALUES(" +
-                    + p + ","+
-                    "'" + bt + "'" + ","+
-                    "'" + et + "'" + ","+
-                    "'" + dat + "'" + ","+
-                    "'" + minr + "'" + ","+
-                     pri + ","+
+                    +p + "," +
+                    "'" + bt + "'" + "," +
+                    "'" + et + "'" + "," +
+                    "'" + dat + "'" + "," +
+                    "'" + minr + "'" + "," +
+                    pri + "," +
                     "'" + bet + "'" + ");";
             System.out.println(query);
             st.executeUpdate(query);
-        }
-        catch (Exception ex){
-
-    public void addMaster() {
-        try {
-            String query = "";
-            st.executeUpdate(query);
-            System.out.println("DONE");
         } catch (Exception ex) {
             System.out.println(ex);
         }
