@@ -84,6 +84,7 @@ public class FullHouse {
 
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                new RegMasterclass();
             }
         });
 

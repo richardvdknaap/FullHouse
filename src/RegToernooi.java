@@ -99,7 +99,7 @@ public class RegToernooi {
         f.add(p1,BorderLayout.WEST);
         f.add(p2,BorderLayout.CENTER);
         f.setVisible(true);
-        
+
 
     }
 }
