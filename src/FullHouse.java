@@ -9,25 +9,25 @@ import java.awt.event.ActionListener;
 public class FullHouse {
 
     final static String LOOKANDFEEL = "Metal";
+    private boolean login = false;
 
 
     public static void main(String[] args) {
 
-        DbConnect connect = new DbConnect();
-        connect.getData();
         new FullHouse();
 
     }
 
     public FullHouse(){
 
-        JFrame f = new JFrame("Menu");
-        JPanel g = new JPanel(new GridBagLayout());
+        DbConnect connect = new DbConnect();
+        JFrame f = new JFrame("Login");
         JPanel p = new JPanel(new GridBagLayout());
+        JPanel g = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         f.setTitle("FullHouse");
-        f.setSize(1200, 800);
+        f.setSize(300, 150);
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -39,13 +39,28 @@ public class FullHouse {
                 new Register();
             }
         });
+        JLabel l1 = new JLabel("Gebruikersnaam: ");
+        JLabel l2 = new JLabel("Wachtwoord: ");
+
+        JTextField username = new JTextField(13);
+        JPasswordField password = new JPasswordField(13);
+
+
 
         // LOG IN KNOP
         JButton inl = new JButton("Log In");
         inl.setPreferredSize(new Dimension(200,50));
         inl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                f.dispose();
+                String i1 = username.getText();
+                String i2 = new String(password.getPassword());
+                System.out.println(i2);
+                login = connect.login(i1, i2);
+                System.out.println(login);
+                if (login == true) {
+                    f.dispose();
+                    new Menu();
+                }
 
             }
         });
@@ -59,28 +74,14 @@ public class FullHouse {
             }
         });
 
-        JButton master = new JButton("Masterclass weergeven");
-        master.setPreferredSize(new Dimension(200,50));
-        master.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-              f.dispose();
-            }
-        });
+        c.insets = new Insets(0,0,5,0);
 
-        JButton toeraan = new JButton("Toernooi aanmaken");
-        toeraan.setPreferredSize(new Dimension(200,50));
-        toeraan.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new RegToernooi();
-            }
-        });
-
-        JButton masteraan = new JButton("Masterclass aanmaken");
-        masteraan.setPreferredSize(new Dimension(200,50));
-        masteraan.addActionListener(new ActionListener() {
+        c.gridx=0;c.gridy=0;c.weightx=0.5;p.add(l1,c);
+        c.gridx=1;c.gridy=0;c.weightx=0.5;p.add(username,c);
+        c.gridx=0;c.gridy=1;c.weightx=0.5;p.add(l2,c);
+        c.gridx=1;c.gridy=1;c.weightx=0.5;p.add(password,c);
+        c.gridx=0;c.gridy=0;c.weightx=0.5;g.add(inl,c);
 
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -97,7 +98,6 @@ public class FullHouse {
             }
         });
 
-        c.insets = new Insets(0,0,5,0);
 
         // Butoons x en y
         // Klant aanmaken
@@ -145,6 +145,7 @@ public class FullHouse {
 
 
         f.add(p,BorderLayout.CENTER);
+        f.add(p);
         f.add(g,BorderLayout.PAGE_END);
         f.setVisible(true);
 
