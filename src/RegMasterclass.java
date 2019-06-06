@@ -20,6 +20,7 @@ public class RegMasterclass {
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        JLabel l0 = new JLabel("Speler Id: ");
         JLabel l1 = new JLabel("Plaatsen: ");
         JLabel l2 = new JLabel("Begintijd: ");
         JLabel l3 = new JLabel("Eindtijd: ");
@@ -28,6 +29,7 @@ public class RegMasterclass {
         JLabel l6 = new JLabel("Prijs: ");
         JLabel l7 = new JLabel("Betaald");
 
+        JTextField t0 = new JTextField(13);
         JTextField t1 = new JTextField(13);
         JTextField t2 = new JTextField(13);
         JTextField t3 = new JTextField(13);
@@ -41,12 +43,13 @@ public class RegMasterclass {
         reg.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+                int i0 = Integer.parseInt(t0.getText());
                 int i1 = Integer.parseInt(t1.getText());
                 String i2 = t2.getText();
                 String i3 = t3.getText();
                 String i4 = t4.getText();
                 int i5 = Integer.parseInt(t5.getText());
-                Double i6 = Double.parseDouble(t6.getText());
+                double i6 = Double.parseDouble(t6.getText());
                 String i7 = "";
                 if(t7.getSelectedIndex() == 1){
                     i7 = "J";
@@ -55,9 +58,7 @@ public class RegMasterclass {
                     i7 = "N";
                 }
 
-
-
-                connect.addMaster(i1,i2,i3,i4,i5,i6,i7);
+                connect.addMaster(i0,i1,i2,i3,i4,i5,i6,i7);
             }
         });
         JButton back = new JButton("Back");
