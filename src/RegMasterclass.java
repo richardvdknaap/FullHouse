@@ -8,8 +8,8 @@ public class RegMasterclass {
     public RegMasterclass(Object id){
 
         DbConnect connect = new DbConnect();
-        String[] genderList = {"Maak een Keuze...","Ja","Nee"};
         JFrame f = new JFrame("Masterclass Registreren");
+        JFrame o = new JFrame();
         JPanel p2 = new JPanel(new GridBagLayout());
 
         JPanel p1 = new JPanel(new GridBagLayout());
@@ -27,7 +27,6 @@ public class RegMasterclass {
         JLabel l4 = new JLabel("Datum: ");
         JLabel l5 = new JLabel("Minimale rating: ");
         JLabel l6 = new JLabel("Prijs: ");
-        JLabel l7 = new JLabel("Betaald");
 
         JTextField t0 = new JTextField(13);
         t0.setText(id.toString());
@@ -38,13 +37,11 @@ public class RegMasterclass {
         JTextField t4 = new JTextField(13);
         JTextField t5 = new JTextField(13);
         JTextField t6 = new JTextField(13);
-        JComboBox t7 = new JComboBox(genderList);
 
         JButton reg = new JButton("Registreren");
         reg.setPreferredSize(new Dimension(150,50));
         reg.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 int i0 = Integer.parseInt(t0.getText());
                 int i1 = Integer.parseInt(t1.getText());
                 String i2 = t2.getText();
@@ -52,15 +49,9 @@ public class RegMasterclass {
                 String i4 = t4.getText();
                 int i5 = Integer.parseInt(t5.getText());
                 double i6 = Double.parseDouble(t6.getText());
-                String i7 = "";
-                if(t7.getSelectedIndex() == 1){
-                    i7 = "J";
-                }
-                if(t7.getSelectedIndex() == 2){
-                    i7 = "N";
-                }
-
-                connect.addMaster(i0,i1,i2,i3,i4,i5,i6,i7);
+                connect.addMaster(i0,i1,i2,i3,i4,i5,i6);
+                f.dispose();
+                new Speler();
             }
         });
         JButton back = new JButton("Back");
@@ -89,8 +80,6 @@ public class RegMasterclass {
         c.gridx = 1; c.gridy = 5; p1.add(t5,c);
         c.gridx = 0; c.gridy = 6; p1.add(l6,c);
         c.gridx = 1; c.gridy = 6; p1.add(t6,c);
-        c.gridx = 0; c.gridy = 7; p1.add(l7,c);
-        c.gridx = 1; c.gridy = 7; p1.add(t7,c);
 
 
 

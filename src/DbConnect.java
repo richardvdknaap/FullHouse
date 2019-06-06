@@ -1,3 +1,4 @@
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class DbConnect {
     public void addSpeler(String n, String a, String p, String w, String t, String e, String geb, String ges, int r) {
         try {
             String query = "INSERT INTO `18146481`.`Speler`(`naam`,`adres`,`postcode`,`woonplaats`,`telefoon`,`email`,`geboortedatum`,`geslacht`,`rating`)" +
-                    "VALUES(?,?,?,?,?,?,?,?,?));";
+                    "VALUES(?,?,?,?,?,?,?,?,?);";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1,n);
             st.setString(2,a);
@@ -74,20 +75,19 @@ public class DbConnect {
         }
     }
 
-    public void addMaster(int b, int p, String begin, String eind, String datum, int m, double prijs, String betaald) {
+    public void addMaster(int b, int p, String begin, String eind, String datum, int m, double prijs) {
         try {
-            String query = "INSERT INTO `18146481`.`Masterclass`(`bekendeSpeler`,`plaatsen`,`beginTijd`,`eindTijd`,`datum`,`minRating`,`prijs`,`betaald`)" +
-                    "VALUES(?,?,?,?,?,?,?,?));";
-            PreparedStatement st = con.prepareStatement(query);
-            st.setInt(1,b);
-            st.setInt(2,p);
-            st.setString(3,begin);
-            st.setString(4,eind);
-            st.setString(5,datum);
-            st.setInt(6,m);
-            st.setDouble(7,prijs);
-            st.setString(8,betaald);
-            st.executeQuery();
+            String query = "INSERT INTO `18146481`.`Masterclass`(`bekendeSpeler`,`plaatsen`,`beginTijd`,`eindTijd`,`datum`,`minRating`,`prijs`)" +
+                    "VALUES(?,?,?,?,?,?,?);";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setInt(1,b);
+            st2.setInt(2,p);
+            st2.setString(3,begin);
+            st2.setString(4,eind);
+            st2.setString(5,datum);
+            st2.setInt(6,m);
+            st2.setDouble(7,prijs);
+            st2.executeUpdate();
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -97,16 +97,16 @@ public class DbConnect {
     public void addToernooi(String t, String c, int a, double p, String b, String e, String d) {
         try {
             String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`,`beginDatum`) " +
-                    "VALUES(?,?,?,?,?,?,?));";
-            PreparedStatement st = con.prepareStatement(query);
-            st.setString(1,t);
-            st.setString(2,c);
-            st.setInt(3,a);
-            st.setDouble(4,p);
-            st.setString(5,b);
-            st.setString(6,e);
-            st.setString(7,d);
-            st.executeQuery();
+                    "VALUES(?,?,?,?,?,?,?);";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setString(1,t);
+            st2.setString(2,c);
+            st2.setInt(3,a);
+            st2.setDouble(4,p);
+            st2.setString(5,b);
+            st2.setString(6,e);
+            st2.setString(7,d);
+            st2.executeUpdate();
 
         } catch (Exception ex) {
             System.out.println(ex);
