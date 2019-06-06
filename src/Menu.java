@@ -36,12 +36,11 @@ public class Menu {
         });
 
         // LOG IN KNOP
-        JButton inl = new JButton("Log In");
+        JButton inl = new JButton("Maak Admin");
         inl.setPreferredSize(new Dimension(200,50));
         inl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-
             }
         });
 
@@ -103,7 +102,7 @@ public class Menu {
         // toernooi aanmaken
         c.gridx = 0;c.gridy = 5;c.weightx = 0.5;p.add(masteraan,c);
 
-        // Login
+        // Admin
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;g.add(inl,c);
 
 

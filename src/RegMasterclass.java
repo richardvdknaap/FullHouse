@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class RegMasterclass {
 
-    public RegMasterclass(){
+    public RegMasterclass(Object id){
 
         DbConnect connect = new DbConnect();
         String[] genderList = {"Maak een Keuze...","Ja","Nee"};
@@ -30,6 +30,8 @@ public class RegMasterclass {
         JLabel l7 = new JLabel("Betaald");
 
         JTextField t0 = new JTextField(13);
+        t0.setText(id.toString());
+        t0.setEditable(false);
         JTextField t1 = new JTextField(13);
         JTextField t2 = new JTextField(13);
         JTextField t3 = new JTextField(13);
@@ -66,27 +68,29 @@ public class RegMasterclass {
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new FullHouse();
+                new Speler();
             }
         });
 
         c.insets = new Insets(0,10,5,0);
         c.anchor = GridBagConstraints.WEST;
 
-        c.gridx = 0; c.gridy = 0; p1.add(l1,c);
-        c.gridx = 1; c.gridy = 0; p1.add(t1,c);
-        c.gridx = 0; c.gridy = 1; p1.add(l2,c);
-        c.gridx = 1; c.gridy = 1; p1.add(t2,c);
-        c.gridx = 0; c.gridy = 2; p1.add(l3,c);
-        c.gridx = 1; c.gridy = 2; p1.add(t3,c);
-        c.gridx = 0; c.gridy = 3; p1.add(l4,c);
-        c.gridx = 1; c.gridy = 3; p1.add(t4,c);
-        c.gridx = 0; c.gridy = 4; p1.add(l5,c);
-        c.gridx = 1; c.gridy = 4; p1.add(t5,c);
-        c.gridx = 0; c.gridy = 5; p1.add(l6,c);
-        c.gridx = 1; c.gridy = 5; p1.add(t6,c);
-        c.gridx = 0; c.gridy = 6; p1.add(l7,c);
-        c.gridx = 1; c.gridy = 6; p1.add(t7,c);
+        c.gridx = 0; c.gridy = 0; p1.add(l0,c);
+        c.gridx = 1; c.gridy = 0; p1.add(t0,c);
+        c.gridx = 0; c.gridy = 1; p1.add(l1,c);
+        c.gridx = 1; c.gridy = 1; p1.add(t1,c);
+        c.gridx = 0; c.gridy = 2; p1.add(l2,c);
+        c.gridx = 1; c.gridy = 2; p1.add(t2,c);
+        c.gridx = 0; c.gridy = 3; p1.add(l3,c);
+        c.gridx = 1; c.gridy = 3; p1.add(t3,c);
+        c.gridx = 0; c.gridy = 4; p1.add(l4,c);
+        c.gridx = 1; c.gridy = 4; p1.add(t4,c);
+        c.gridx = 0; c.gridy = 5; p1.add(l5,c);
+        c.gridx = 1; c.gridy = 5; p1.add(t5,c);
+        c.gridx = 0; c.gridy = 6; p1.add(l6,c);
+        c.gridx = 1; c.gridy = 6; p1.add(t6,c);
+        c.gridx = 0; c.gridy = 7; p1.add(l7,c);
+        c.gridx = 1; c.gridy = 7; p1.add(t7,c);
 
 
 

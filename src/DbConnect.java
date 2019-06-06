@@ -7,7 +7,7 @@ public class DbConnect {
     private Connection con;
     private Statement st;
     private ResultSet rs;
-    private String col[] = {"Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
+    private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
     private DefaultTableModel model = new DefaultTableModel(col,0);
 
     public DbConnect() {
@@ -35,12 +35,13 @@ public class DbConnect {
             rs = st.executeQuery();
 
             while (rs.next()) {
+                String id = rs.getString("idSpeler");
                 String n = rs.getString("naam");
                 String t = rs.getString("telefoon");
                 String e = rs.getString("email");
                 String g = rs.getString("geboortedatum");
                 String r = rs.getString("rating");
-                model.addRow(new Object[]{n,t,e,g,r});
+                model.addRow(new Object[]{id,n,t,e,g,r});
 
             }
 
@@ -131,6 +132,27 @@ public class DbConnect {
             System.out.println(ex);
         }
         return login;
+    }
+    public void deleteUser(Object id){
+
+        try {
+            String query = "UPDATE `18146481`.`Speler` SET " +
+                    "Speler.naam = 'VERWIJDERD', " +
+                    "Speler.adres = 'VERWIJDERD', " +
+                    "Speler.postcode = 'VERWIJDERD'," +
+                    "Speler.woonplaats = 'VERWIJDERD', " +
+                    "Speler.telefoon = 'VERWIJDERD', " +
+                    "Speler.email = 'VERWIJDERD', " +
+                    "Speler.geboortedatum = 'VERWIJDERD' " +
+                    "WHERE Speler.idSpeler = ?";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setObject(1,id);
+            st2.executeUpdate();
+
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
+
     }
 
 

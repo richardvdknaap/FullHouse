@@ -75,7 +75,7 @@ public class Register {
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new FullHouse();
+                new Menu();
             }
         });
 
