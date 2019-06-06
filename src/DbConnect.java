@@ -1,10 +1,14 @@
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DbConnect {
 
     private Connection con;
     private Statement st;
     private ResultSet rs;
+    private String col[] = {"Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
+    private DefaultTableModel model = new DefaultTableModel(col,0);
 
     public DbConnect() {
         try {
@@ -18,23 +22,33 @@ public class DbConnect {
         }
     }
 
-    public void getData(int id) {
+    public DefaultTableModel getSpeler(String name) {
         try {
-
-            String query = "select * from Speler WHERE Speler.idSpeler = ?";
+            if (model.getRowCount() > 0) {
+                for (int i = model.getRowCount() - 1; i > -1; i--) {
+                    model.removeRow(i);
+                }
+            }
+            String query = "select * from `18146481`.Speler WHERE Speler.naam LIKE ?";
             PreparedStatement st = con.prepareStatement(query);
-            st.setInt(1,id);
+            st.setString(1,"%"+name+"%");
             rs = st.executeQuery();
 
-            System.out.println("Records from DB");
             while (rs.next()) {
-                String naam = rs.getString("naam");
-                System.out.println(naam);
+                String n = rs.getString("naam");
+                String t = rs.getString("telefoon");
+                String e = rs.getString("email");
+                String g = rs.getString("geboortedatum");
+                String r = rs.getString("rating");
+                model.addRow(new Object[]{n,t,e,g,r});
+
             }
 
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        return model;
+
     }
 
     public void addSpeler(String n, String a, String p, String w, String t, String e, String geb, String ges, int r) {

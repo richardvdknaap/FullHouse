@@ -21,7 +21,6 @@ public class FullHouse {
     public FullHouse(){
 
         DbConnect connect = new DbConnect();
-        connect.getData(1);
         JFrame f = new JFrame("Login");
         JPanel p = new JPanel(new GridBagLayout());
         JPanel g = new JPanel(new GridBagLayout());
