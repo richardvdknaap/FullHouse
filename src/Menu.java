@@ -26,6 +26,15 @@ public class Menu {
             }
         });
 
+        JButton speler = new JButton("Speler Weergeven");
+        speler.setPreferredSize(new Dimension(200,50));
+        speler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new Speler();
+            }
+        });
+
         // LOG IN KNOP
         JButton inl = new JButton("Log In");
         inl.setPreferredSize(new Dimension(200,50));
@@ -77,41 +86,25 @@ public class Menu {
 
         // Butoons x en y
         // Registratie
-        c.gridy = 0;
-        c.gridx = 0;
-        c.weightx = 0.5;
-        p.add(reg,c);
+        c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p.add(reg,c);
 
-        // Login
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weightx = 0.5;
-        g.add(inl,c);
+        // Speler weergeven
+        c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p.add(speler,c);
 
         // Toernooi weergeven
-        c.gridx = 0;
-        c.gridy = 2;
-        c.weightx = 0.5;
-        p.add(toer,c);
+        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p.add(toer,c);
 
         // Maasterclass weergeven
-        c.gridx = 0;
-        c.gridy = 3;
-        c.weightx = 0.5;
-        p.add(master,c);
+        c.gridx = 0;c.gridy = 3;c.weightx = 0.5;p.add(master,c);
 
         // Maasterclass aanmaken
-        c.gridx = 0;
-        c.gridy = 4;
-        c.weightx = 0.5;
-        p.add(toeraan,c);
+        c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(toeraan,c);
 
         // toernooi aanmaken
-        c.gridx = 0;
-        c.gridy = 5;
-        c.weightx = 0.5;
-        p.add(masteraan,c);
+        c.gridx = 0;c.gridy = 5;c.weightx = 0.5;p.add(masteraan,c);
 
+        // Login
+        c.gridx = 0;c.gridy = 0;c.weightx = 0.5;g.add(inl,c);
 
 
         f.add(p,BorderLayout.CENTER);
