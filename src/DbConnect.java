@@ -10,7 +10,7 @@ public class DbConnect {
     private ResultSet rs;
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
     private String col2[] = {"ID", "Thema", "Conditie","Aantal", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
-    private String col3[] = {"Naam ", "Geslacht", "Rating","Datum"};
+    private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Datum"};
     private DefaultTableModel model = new DefaultTableModel(col,0);
     private DefaultTableModel model2 = new DefaultTableModel(col2,0);
     private DefaultTableModel model3 = new DefaultTableModel(col3,0);
