@@ -100,12 +100,11 @@ public class Speler {
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
-                if (table.getSelectedRow() > -1) {
                     int srow = table.getSelectedRow();
                     Object sid = table.getValueAt(srow, 0);
                     System.out.println(999);
                     list = new JComboBox(connect.listToernooi(sid).toArray());
-                }
+                
             }
         });
 
