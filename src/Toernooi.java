@@ -40,8 +40,11 @@ public class Toernooi {
         b2.setPreferredSize(new Dimension(200,50));
         b2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ToernooiSpelers();
+                int srow = table.getSelectedRow();
+                Object id = table.getValueAt(srow,0);
                 f.dispose();
+                new ToernooiSpelers(id);
+
 
             }
         });
