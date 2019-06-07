@@ -9,8 +9,10 @@ public class DbConnect {
     private Statement st;
     private ResultSet rs;
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
+    private String col2[] = {"ID", "Thema", "Conditie","Aantal", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
     private DefaultTableModel model = new DefaultTableModel(col,0);
-    
+    private DefaultTableModel model2 = new DefaultTableModel(col2,0);
+
 
     public DbConnect() {
         try {
@@ -51,6 +53,37 @@ public class DbConnect {
             System.out.println(ex);
         }
         return model;
+
+    }
+
+    public DefaultTableModel getToernooi(){
+        try {
+            if (model2.getRowCount() > 0) {
+                for (int i = model2.getRowCount() - 1; i > -1; i--) {
+                    model2.removeRow(i);
+                }
+            }
+            String query = "select * from `18146481`.Toernooi";
+            PreparedStatement st = con.prepareStatement(query);
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("idToernooi");
+                String n = rs.getString("Thema");
+                String t = rs.getString("Conditie");
+                String e = rs.getString("maxAantal");
+                String g = rs.getString("Prijsdeelname");
+                String r = rs.getString("Begintijd");
+                String z = rs.getString("Eindtijd");
+                String i = rs.getString("beginDatum");
+                model2.addRow(new Object[]{id,n,t,e,g,r,z,i});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model2;
 
     }
 
@@ -129,6 +162,8 @@ public class DbConnect {
         }
     }
 
+
+
     public Boolean login(String user, String pass) {
         boolean login =false;
         try {
@@ -169,6 +204,25 @@ public class DbConnect {
             System.out.println(ex);
         }
 
+    }
+    public ArrayList<String> listToernooi(Object id){
+
+        ArrayList<String> namen = new ArrayList<>();
+        try{
+            String query = "SELECT Toernooi.thema from `18146481`.Toernooi WHERE Toernooi.conditie = (SELECT Speler.geslacht FROM `18146481`.Speler WHERE Speler.idSpeler = ?) OR Toernooi.Conditie = 'O'";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setObject(1,id);
+            rs = st2.executeQuery();
+            while(rs.next()){
+                String thema = rs.getString("thema");
+                namen.add(thema);
+            }
+        } catch (Exception ex){
+            System.out.println(ex);
+        }
+
+
+        return namen;
     }
 
 
