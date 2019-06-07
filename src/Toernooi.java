@@ -21,10 +21,10 @@ public class Toernooi {
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800,300));
 
         table = new JTable(connect.getToernooi());
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(800,300));
         scrollPane.setViewportView(table);
 
         JButton back = new JButton("Back");

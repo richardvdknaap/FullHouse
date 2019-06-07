@@ -85,14 +85,15 @@ public class DbConnect {
             }
             String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum" +
                     " from `18146481`.Toernooi " +
-                    "join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
-                    "join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
+                    "left join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
+                    "left join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
                     "group by Toernooi.idToernooi";
             System.out.println(query);
-            PreparedStatement st = con.prepareStatement(query);
-            rs = st.executeQuery();
+            PreparedStatement st2 = con.prepareStatement(query);
+            rs = st2.executeQuery();
 
             while (rs.next()) {
+                System.out.println(2);
                 String id = rs.getString("idToernooi");
                 String n = rs.getString("Thema");
                 String t = rs.getString("Conditie");
