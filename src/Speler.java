@@ -122,11 +122,11 @@ public class Speler {
                 if (!table.getSelectionModel().isSelectionEmpty()) {
                     int srow = table.getSelectedRow();
                     Object id = table.getValueAt(srow, 0);
-                    f.dispose();
-                    new InschrMasterclass(id);
+                    connect.inschijvenMasterclass(id);
                 }
             }
         });
+
 
         c.anchor = GridBagConstraints.WEST;
         c.insets = new Insets(0,10,5,0);

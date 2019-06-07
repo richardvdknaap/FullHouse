@@ -13,6 +13,7 @@ public class DbConnect {
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
     private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Bezet", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
     private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Datum"};
+    private String col4[] = {"idMasterclass","bekendeSpeler ", "plaatsen", "beginTijd","EindTijd","datum", "minRating", "prijs"};
     private DefaultTableModel model = new DefaultTableModel(col,0){
         @Override
         public boolean isCellEditable(int row, int column){
@@ -31,7 +32,12 @@ public class DbConnect {
             return false;
         }
     };
-
+    private DefaultTableModel model4 = new DefaultTableModel(col4,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
 
 
     public DbConnect() {
@@ -111,6 +117,39 @@ public class DbConnect {
             System.out.println(ex);
         }
         return model2;
+
+    }
+
+    public DefaultTableModel getMasterclass(){
+        try {
+            if (model4.getRowCount() > 0) {
+                for (int i = model4.getRowCount() - 1; i > -1; i--) {
+                    model4.removeRow(i);
+                }
+            }
+            String query = "select Masterclass.idMasterclass, Masterclass.bekendeSpeler, Masterclass.plaatsen, Masterclass.beginTijd, Masterclass.eindTijd, Masterclass.datum, Masterclass.minRating, Masterclass.prijs from `18146481`.Masterclass ";
+            System.out.println(query);
+            PreparedStatement st2 = con.prepareStatement(query);
+            rs = st2.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(2);
+                String id = rs.getString("idMasterclass");
+                String n = rs.getString("bekendeSpeler");
+                String t = rs.getString("plaatsen");
+                String e = rs.getString("beginTijd");
+                String b = rs.getString("eindTijd");
+                String g = rs.getString("datum");
+                String r = rs.getString("minRating");
+                String z = rs.getString("prijs");
+                model4.addRow(new Object[]{id,n,t,e,b,g,r,z});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model4;
 
     }
 
@@ -272,6 +311,21 @@ public class DbConnect {
         }
 
     }
+
+    public void inschijvenMasterclass(Object id){
+
+        try {
+            String query = "update `18146481`.`Masterclass` set plaatsen = plaatsen -1 WHERE idMasterclass LIKE ?";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setObject(1, id);
+            st2.executeUpdate();
+
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
+
+    }
+
     public ArrayList<String> listToernooi(Object id){
 
         ArrayList<String> namen = new ArrayList<>();
@@ -291,6 +345,7 @@ public class DbConnect {
 
         return namen;
     }
+
     public void inschijvenToernooi(String tName, Object id){
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -318,6 +373,9 @@ public class DbConnect {
             System.out.println(ex);
         }
     }
+
+
+
     public DefaultTableModel getToernooiSpelers(Object id){
         try {
             if (model3.getRowCount() > 0) {
@@ -348,4 +406,34 @@ public class DbConnect {
 
     }
 
-}
+    public DefaultTableModel getMasterclassSpelers(Object id){
+        try {
+            if (model3.getRowCount() > 0) {
+                for (int i = model3.getRowCount() - 1; i > -1; i--) {
+                    model3.removeRow(i);
+                }
+            }
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum from `18146481`.Speler JOIN Betaald on Speler.idSpeler = Betaald.idSpeler JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi WHERE Toernooi.idToernooi = ? GROUP BY Speler.naam;";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setObject(1,id);
+            rs = st.executeQuery();
+
+
+            while (rs.next()) {
+                String id1 = rs.getString("idSpeler");
+                String n = rs.getString("naam");
+                String t = rs.getString("geslacht");
+                String e = rs.getString("rating");
+                String g = rs.getString("datum");
+                model3.addRow(new Object[]{id1,n,t,e,g});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model3;
+
+    }
+
+    }

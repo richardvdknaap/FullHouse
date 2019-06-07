@@ -66,7 +66,17 @@ public class Menu {
             }
         });
 
-        JButton loguit = new JButton("Loguit");
+        JButton mast = new JButton("Masterclass weergeven");
+        mast.setPreferredSize(new Dimension(200,50));
+        mast.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new Masterclass();
+            }
+        });
+
+        JButton loguit = new JButton("Log uit");
         loguit.setPreferredSize(new Dimension(200,50));
         loguit.addActionListener(new ActionListener() {
 
@@ -93,8 +103,11 @@ public class Menu {
         // Toernooi aanmaken
         c.gridx = 0;c.gridy = 3;c.weightx = 0.5;p.add(toeraan,c);
 
+        // Masterclass weergeven
+        c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(mast,c);
+
         //Loguit
-        c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(loguit,c);
+        c.gridx = 0;c.gridy = 5;c.weightx = 0.5;p.add(loguit,c);
 
         // Admin
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;g.add(inl,c);
