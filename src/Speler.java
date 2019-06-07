@@ -1,13 +1,14 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextLayout;
 
 public class Speler {
 
     private JTable table = new JTable();
+    private JComboBox list = new JComboBox();
 
     public Speler() {
 
@@ -26,6 +27,9 @@ public class Speler {
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+        list.setPreferredSize(new Dimension(200,50));
+
         JLabel l = new JLabel("Naam: ");
 
         JTextField t = new JTextField(13);
@@ -40,6 +44,13 @@ public class Speler {
                 String name = t.getText();
                 table = new JTable(connect.getSpeler(name));
                 scrollPane.setViewportView(table);
+            }
+        });
+        JButton inschrijventoer = new JButton("Inschrijven Toernooi");
+        inschrijventoer.setPreferredSize(new Dimension(200,50));
+        inschrijventoer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
         JButton b2 = new JButton("Verwijderen");
@@ -86,6 +97,17 @@ public class Speler {
                 new InschrMasterclass(id);
             }
         });
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (table.getSelectedRow() > -1) {
+                    int srow = table.getSelectedRow();
+                    Object sid = table.getValueAt(srow, 0);
+                    System.out.println(999);
+                    list = new JComboBox(connect.listToernooi(sid).toArray());
+                }
+            }
+        });
 
 
         c.anchor = GridBagConstraints.WEST;
@@ -99,11 +121,13 @@ public class Speler {
         c.insets = new Insets(0,10,5,10);
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p1.add(scrollPane,c);
 
-        c.insets = new Insets(10,0,0,150);
-        c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p3.add(b2,c);
+        c.insets = new Insets(10,0,0,5);
+        c.gridx = 1;c.gridy = 9;c.weightx = 0.5;p3.add(b2,c);
         c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p3.add(master,c);
-        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p3.add(inschrijfMaster,c);
+        c.gridx = 1;c.gridy = 1;c.weightx = 0.5;p3.add(inschrijfMaster,c);
         c.gridx = 0;c.gridy = 9;c.weightx = 0.5;p3.add(back,c);
+        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p3.add(list,c);
+        c.gridx = 1;c.gridy = 2;c.weightx = 0.5;p3.add(inschrijventoer,c);
 
         f.add(p1,BorderLayout.WEST);
         f.add(p2,BorderLayout.PAGE_START);

@@ -53,14 +53,6 @@ public class Menu {
             }
         });
 
-        JButton master = new JButton("Masterclass weergeven");
-        master.setPreferredSize(new Dimension(200,50));
-        master.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-            }
-        });
 
         JButton toeraan = new JButton("Toernooi aanmaken");
         toeraan.setPreferredSize(new Dimension(200,50));
@@ -72,14 +64,6 @@ public class Menu {
             }
         });
 
-        JButton masteraan = new JButton("Masterclass aanmaken");
-        masteraan.setPreferredSize(new Dimension(200,50));
-        masteraan.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-            }
-        });
 
         c.insets = new Insets(0,0,5,0);
 
@@ -93,14 +77,9 @@ public class Menu {
         // Toernooi weergeven
         c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p.add(toer,c);
 
-        // Maasterclass weergeven
-        c.gridx = 0;c.gridy = 3;c.weightx = 0.5;p.add(master,c);
 
-        // Maasterclass aanmaken
+        // Toernooi aanmaken
         c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(toeraan,c);
-
-        // toernooi aanmaken
-        c.gridx = 0;c.gridy = 5;c.weightx = 0.5;p.add(masteraan,c);
 
         // Admin
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;g.add(inl,c);
