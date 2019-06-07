@@ -83,10 +83,12 @@ public class DbConnect {
                     model2.removeRow(i);
                 }
             }
-            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum from `18146481`.Toernooi " +
-                    "join '18146481'.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
-                    "join '18146481'.Speler on Speler.idSpeler = Betaald.idSpeler " +
+            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum" +
+                    " from `18146481`.Toernooi " +
+                    "join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
+                    "join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
                     "group by Toernooi.idToernooi";
+            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
             rs = st.executeQuery();
 
@@ -100,7 +102,7 @@ public class DbConnect {
                 String r = rs.getString("Begintijd");
                 String z = rs.getString("Eindtijd");
                 String i = rs.getString("beginDatum");
-                model2.addRow(new Object[]{id,n,t,e,g,r,z,i});
+                model2.addRow(new Object[]{id,n,t,e,b,g,r,z,i});
 
             }
 
