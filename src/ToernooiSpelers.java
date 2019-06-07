@@ -22,7 +22,7 @@ public class ToernooiSpelers {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(800,300));
 
-        table = new JTable(connect.getToernooiSpelers());
+        //table = new JTable(connect.getToernooiSpelers());
         scrollPane.setViewportView(table);
 
     }

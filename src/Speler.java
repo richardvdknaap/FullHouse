@@ -46,7 +46,13 @@ public class Speler {
                 scrollPane.setViewportView(table);
             }
         });
+        JButton inschrijventoer = new JButton("Inschrijven Toernooi");
+        inschrijventoer.setPreferredSize(new Dimension(200,50));
+        inschrijventoer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
+            }
+        });
         JButton b2 = new JButton("Verwijderen");
         b2.setPreferredSize(new Dimension(200,50));
         b2.addActionListener(new ActionListener() {
@@ -63,7 +69,6 @@ public class Speler {
                 }
             }
         });
-
         JButton back = new JButton("Back");
         back.setPreferredSize(new Dimension(200,50));
         back.addActionListener(new ActionListener() {
