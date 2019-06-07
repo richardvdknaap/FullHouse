@@ -11,7 +11,7 @@ public class DbConnect {
     private Statement st;
     private ResultSet rs;
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
-    private String col2[] = {"ID", "Thema", "Conditie","Aantal", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
+    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Bezet", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
     private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Datum"};
     private DefaultTableModel model = new DefaultTableModel(col,0){
         @Override
@@ -83,7 +83,10 @@ public class DbConnect {
                     model2.removeRow(i);
                 }
             }
-            String query = "select * from `18146481`.Toernooi";
+            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum from `18146481`.Toernooi " +
+                    "join '18146481'.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
+                    "join '18146481'.Speler on Speler.idSpeler = Betaald.idSpeler " +
+                    "group by Toernooi.idToernooi";
             PreparedStatement st = con.prepareStatement(query);
             rs = st.executeQuery();
 
@@ -92,6 +95,7 @@ public class DbConnect {
                 String n = rs.getString("Thema");
                 String t = rs.getString("Conditie");
                 String e = rs.getString("maxAantal");
+                String b = rs.getString("Bezet");
                 String g = rs.getString("Prijsdeelname");
                 String r = rs.getString("Begintijd");
                 String z = rs.getString("Eindtijd");
