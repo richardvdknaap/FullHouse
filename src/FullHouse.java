@@ -1,3 +1,4 @@
+import com.appsdeveloperblog.encryption.Security;
 import com.sun.source.tree.NewArrayTree;
 
 import javax.swing.*;
@@ -53,9 +54,23 @@ public class FullHouse {
         inl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String i1 = username.getText();
-                String i2 = new String(password.getPassword());
-                System.out.println(i2);
-                login = connect.login(i1, i2);
+
+                String secpass = connect.getSecpass(i1);
+
+
+                String salt = connect.getSalt(i1);
+
+
+                boolean passwordMatch = Security.verifyUserPassword(secpass, secpass, salt);
+
+                if(passwordMatch)
+                {
+                    login = true;
+                } else {
+                    login = false;
+                }
+
+                login = connect.login(i1,salt,secpass);
                 System.out.println(login);
                 if (login == true) {
                     f.dispose();

@@ -133,19 +133,58 @@ public class DbConnect {
         }
     }
 
-    public void addUser(String user, String pass) {
+    public void addUser(String user, String salt, String secpass) {
         try {
-            String query = "INSERT INTO `18146481`.`USERS`(`username`,`password`)" +
-                    "VALUES(?,?);";
+            String query = "INSERT INTO `18146481`.`USERS`(`username`,`salt`,`secPass`)" +
+                    "VALUES(?,?,?);";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1,user);
-            st.setString(2,pass);
+            st.setString(2,salt);
+            st.setString(3,secpass);
+
 
             st.executeUpdate();
             System.out.println("DONE");
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    public String getSalt(String user){
+        String salt = "";
+        try{
+            String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setString(1,user);
+            rs = st2.executeQuery();
+            while (rs.next()){
+
+               salt = rs.getString("salt");
+            }
+        }
+        catch(Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(salt);
+        return salt;
+    }
+
+    public String getSecpass(String user){
+        String secpass = "";
+        try{
+            String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setString(1,user);
+            rs = st2.executeQuery();
+            while (rs.next()){
+
+                secpass = rs.getString("secPass");
+            }
+        }
+        catch(Exception ex) {
+            System.out.println(ex);
+        }
+        return secpass;
     }
 
     public void addMaster(int b, int p, String begin, String eind, String datum, int m, double prijs) {
@@ -188,13 +227,14 @@ public class DbConnect {
 
 
 
-    public Boolean login(String user, String pass) {
+    public Boolean login(String user, String salt, String secpass) {
         boolean login =false;
         try {
-            String query = "SELECT * FROM `18146481`.`USERS` WHERE username = ? and password = ?";
+            String query = "SELECT * FROM `18146481`.`USERS` WHERE username = ? and salt = ? and secPass = ?";
             PreparedStatement st2 = con.prepareStatement(query);
             st2.setString(1, user);
-            st2.setString(2, pass);
+            st2.setString(2, salt);
+            st2.setString(3, secpass);
             rs = st2.executeQuery();
             if(rs.next()==false){
                 login = false;
