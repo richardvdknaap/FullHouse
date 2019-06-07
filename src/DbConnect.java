@@ -110,6 +110,21 @@ public class DbConnect {
         }
     }
 
+    public void addUser(String user, String pass) {
+        try {
+            String query = "INSERT INTO `18146481`.`USERS`(`username`,`password`)" +
+                    "VALUES(?,?);";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1,user);
+            st.setString(2,pass);
+
+            st.executeUpdate();
+            System.out.println("DONE");
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
     public void addMaster(int b, int p, String begin, String eind, String datum, int m, double prijs) {
         try {
             String query = "INSERT INTO `18146481`.`Masterclass`(`bekendeSpeler`,`plaatsen`,`beginTijd`,`eindTijd`,`datum`,`minRating`,`prijs`)" +
