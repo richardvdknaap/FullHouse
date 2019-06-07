@@ -22,9 +22,9 @@ public class ToernooiSpelers {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800,300));
+        scrollPane.setPreferredSize(new Dimension(800,300) );
 
-        table = new JTable(connect.getToernooiSpelers());
+        table = new JTable(connect.getToernooiSpelers(id));
         scrollPane.setViewportView(table);
 
         JButton back = new JButton("Back");
