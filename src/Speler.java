@@ -54,12 +54,14 @@ public class Speler {
             public void actionPerformed(ActionEvent e) {
                 list.removeAllItems();
                 list.addItem("Selecteer toernooi...");
-                int srow = table.getSelectedRow();
-                Object sid = table.getValueAt(srow, 0);
-                //list = new JComboBox(connect.listToernooi(sid).toArray());
-                Object[] data = connect.listToernooi(sid).toArray();
-                for (int x=0;x<data.length;x++){
-                    list.addItem(data[x]);
+                if (!table.getSelectionModel().isSelectionEmpty()){
+                    int srow = table.getSelectedRow();
+                    Object sid = table.getValueAt(srow, 0);
+                    //list = new JComboBox(connect.listToernooi(sid).toArray());
+                    Object[] data = connect.listToernooi(sid).toArray();
+                    for (int x=0;x<data.length;x++){
+                        list.addItem(data[x]);
+                    }
                 }
             }
         });
@@ -67,26 +69,29 @@ public class Speler {
         inschrijventoer.setPreferredSize(new Dimension(200,50));
         inschrijventoer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String sToer = (list.getSelectedItem().toString());
-                int srow = table.getSelectedRow();
-                Object sid = table.getValueAt(srow,0);
-                connect.inschijvenToernooi(sToer,sid);
-
+                if (!table.getSelectionModel().isSelectionEmpty()) {
+                    String sToer = (list.getSelectedItem().toString());
+                    int srow = table.getSelectedRow();
+                    Object sid = table.getValueAt(srow, 0);
+                    connect.inschijvenToernooi(sToer, sid);
+                }
             }
         });
         JButton b2 = new JButton("Verwijderen");
         b2.setPreferredSize(new Dimension(200,50));
         b2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int srow = table.getSelectedRow();
-                Object sname = table.getValueAt(srow,1);
-                int input = (int) JOptionPane.showOptionDialog(o, "Weet je zeker dat je " +sname+" wilt verwijderen?","Selecteer een optie",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, yn, yn[1]);
-                if(input == 0) {
-                    Object id = table.getValueAt(srow, 0);
-                    connect.deleteUser(id);
-                    String name = t.getText();
-                    table = new JTable(connect.getSpeler(name));
-                    scrollPane.setViewportView(table);
+                if (!table.getSelectionModel().isSelectionEmpty()) {
+                    int srow = table.getSelectedRow();
+                    Object sname = table.getValueAt(srow, 1);
+                    int input = (int) JOptionPane.showOptionDialog(o, "Weet je zeker dat je " + sname + " wilt verwijderen?", "Selecteer een optie", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, yn, yn[1]);
+                    if (input == 0) {
+                        Object id = table.getValueAt(srow, 0);
+                        connect.deleteUser(id);
+                        String name = t.getText();
+                        table = new JTable(connect.getSpeler(name));
+                        scrollPane.setViewportView(table);
+                    }
                 }
             }
         });
@@ -102,20 +107,24 @@ public class Speler {
         master.setPreferredSize(new Dimension(200,50));
         master.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int srow = table.getSelectedRow();
-                Object id = table.getValueAt(srow,0);
-                f.dispose();
-                new RegMasterclass(id);
+                if (!table.getSelectionModel().isSelectionEmpty()) {
+                    int srow = table.getSelectedRow();
+                    Object id = table.getValueAt(srow, 0);
+                    f.dispose();
+                    new RegMasterclass(id);
+                }
             }
         });
         JButton inschrijfMaster = new JButton("Inschrijven Masterclass");
         inschrijfMaster.setPreferredSize(new Dimension(200,50));
         inschrijfMaster.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int srow = table.getSelectedRow();
-                Object id = table.getValueAt(srow,0);
-                f.dispose();
-                new InschrMasterclass(id);
+                if (!table.getSelectionModel().isSelectionEmpty()) {
+                    int srow = table.getSelectedRow();
+                    Object id = table.getValueAt(srow, 0);
+                    f.dispose();
+                    new InschrMasterclass(id);
+                }
             }
         });
 
