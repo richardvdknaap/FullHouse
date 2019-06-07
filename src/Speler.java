@@ -9,6 +9,7 @@ public class Speler {
 
     private JTable table = new JTable();
     private JComboBox list = new JComboBox();
+    int iSelectedIndex =-1;
 
     public Speler() {
 
@@ -27,7 +28,7 @@ public class Speler {
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setPreferredSize(new Dimension(200,50));
 
         JLabel l = new JLabel("Naam: ");
@@ -36,6 +37,7 @@ public class Speler {
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(800,300));
+
 
         JButton b1 = new JButton("Ophalen");
         b1.setPreferredSize(new Dimension(200,50));
@@ -46,10 +48,29 @@ public class Speler {
                 scrollPane.setViewportView(table);
             }
         });
+        JButton b3 = new JButton("Toernooien Ophalen");
+        b3.setPreferredSize(new Dimension(200,50));
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                list.removeAllItems();
+                list.addItem("Selecteer toernooi...");
+                int srow = table.getSelectedRow();
+                Object sid = table.getValueAt(srow, 0);
+                //list = new JComboBox(connect.listToernooi(sid).toArray());
+                Object[] data = connect.listToernooi(sid).toArray();
+                for (int x=0;x<data.length;x++){
+                    list.addItem(data[x]);
+                }
+            }
+        });
         JButton inschrijventoer = new JButton("Inschrijven Toernooi");
         inschrijventoer.setPreferredSize(new Dimension(200,50));
         inschrijventoer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String sToer = (list.getSelectedItem().toString());
+                int srow = table.getSelectedRow();
+                Object sid = table.getValueAt(srow,0);
+                connect.inschijvenToernooi(sToer,sid);
 
             }
         });
@@ -97,25 +118,16 @@ public class Speler {
                 new InschrMasterclass(id);
             }
         });
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                    int srow = table.getSelectedRow();
-                    Object sid = table.getValueAt(srow, 0);
-                    System.out.println(999);
-                    list = new JComboBox(connect.listToernooi(sid).toArray());
-                
-            }
-        });
-
 
         c.anchor = GridBagConstraints.WEST;
         c.insets = new Insets(0,10,5,0);
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p2.add(l,c);
         c.insets = new Insets(0,0,5,150);
         c.gridx = 1;c.gridy = 0;c.weightx = 0.5;p2.add(t,c);
-        c.insets = new Insets(0,0,5,500);
+        c.insets = new Insets(0,0,5,0);
         c.gridx = 2;c.gridy = 0;c.weightx = 0.5;p2.add(b1,c);
+        c.insets = new Insets(0,0,5,200);
+        c.gridx = 3;c.gridy = 0;c.weightx = 0.5;p2.add(b3,c);
 
         c.insets = new Insets(0,10,5,10);
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p1.add(scrollPane,c);
