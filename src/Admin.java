@@ -1,3 +1,5 @@
+import com.appsdeveloperblog.encryption.Security;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +36,9 @@ public class Admin{
             public void actionPerformed(ActionEvent e) {
                 String i1 = username.getText();
                 String i2 = password.getText();
-                connect.addUser(i1,i2);
+                String salt = Security.getSalt(30);
+                String secPass = Security.generateSecurePassword(i2, salt);
+                connect.addUser(i1,salt,secPass);
             }
         });
 
