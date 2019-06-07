@@ -191,6 +191,25 @@ public class DbConnect {
         }
 
     }
+    public ArrayList<String> listToernooi(Object id){
+
+        ArrayList<String> namen = new ArrayList<>();
+        try{
+            String query = "SELECT Toernooi.thema from `18146481`.Toernooi WHERE Toernooi.conditie = (SELECT Speler.geslacht FROM `18146481`.Speler WHERE Speler.idSpeler = ?) OR Toernooi.Conditie = 'O'";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setObject(1,id);
+            rs = st2.executeQuery();
+            while(rs.next()){
+                String thema = rs.getString("thema");
+                namen.add(thema);
+            }
+        } catch (Exception ex){
+            System.out.println(ex);
+        }
+
+
+        return namen;
+    }
 
 
 }
