@@ -10,6 +10,7 @@ public class DbConnect {
     private ResultSet rs;
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
     private DefaultTableModel model = new DefaultTableModel(col,0);
+    
 
     public DbConnect() {
         try {
@@ -67,6 +68,21 @@ public class DbConnect {
             st.setString(7,geb);
             st.setString(8,ges);
             st.setInt(9,r);
+
+            st.executeUpdate();
+            System.out.println("DONE");
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void addUser(String user, String pass) {
+        try {
+            String query = "INSERT INTO `18146481`.`USERS`(`username`,`password`)" +
+                    "VALUES(?,?);";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1,user);
+            st.setString(2,pass);
 
             st.executeUpdate();
             System.out.println("DONE");

@@ -41,6 +41,7 @@ public class Menu {
         inl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                new Admin();
             }
         });
 
