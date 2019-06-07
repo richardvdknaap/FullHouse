@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DbConnect {
@@ -224,6 +226,32 @@ public class DbConnect {
 
         return namen;
     }
+    public void inschijvenToernooi(String tName, Object id){
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate localDate = LocalDate.now();
+            int toerId = 0;
 
+            String query = "SELECT * from `18146481`.Toernooi WHERE thema = ?";
+            System.out.println(query);
+            PreparedStatement st1 = con.prepareStatement(query);
+            st1.setString(1,tName);
+            rs = st1.executeQuery();
+            while (rs.next()) {
+                toerId = rs.getInt("idToernooi");
+            }
+            String query2 = "INSERT INTO `18146481`.`Betaald`(`datum`,`idSpeler`,`idToernooi`) " +
+                    "VALUES(?,?,?);";
+            System.out.println(query2);
+            PreparedStatement st2 = con.prepareStatement(query2);
+            st2.setString(1,localDate.toString());
+            st2.setObject(2,id);
+            st2.setInt(3,toerId);
+            st2.executeUpdate();
+
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
 
 }
