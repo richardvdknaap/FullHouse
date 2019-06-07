@@ -50,6 +50,7 @@ public class Menu {
 
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                new Toernooi();
             }
         });
 

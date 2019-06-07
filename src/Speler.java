@@ -42,6 +42,7 @@ public class Speler {
                 scrollPane.setViewportView(table);
             }
         });
+
         JButton b2 = new JButton("Verwijderen");
         b2.setPreferredSize(new Dimension(200,50));
         b2.addActionListener(new ActionListener() {
@@ -58,6 +59,7 @@ public class Speler {
                 }
             }
         });
+
         JButton back = new JButton("Back");
         back.setPreferredSize(new Dimension(200,50));
         back.addActionListener(new ActionListener() {
