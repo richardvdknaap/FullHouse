@@ -10,8 +10,11 @@ public class DbConnect {
     private ResultSet rs;
     private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
     private String col2[] = {"ID", "Thema", "Conditie","Aantal", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
+    private String col3[] = {"Naam ", "Geslacht", "Rating","Datum"};
     private DefaultTableModel model = new DefaultTableModel(col,0);
     private DefaultTableModel model2 = new DefaultTableModel(col2,0);
+    private DefaultTableModel model3 = new DefaultTableModel(col3,0);
+
 
 
 
@@ -225,6 +228,36 @@ public class DbConnect {
 
         return namen;
     }
+
+    public DefaultTableModel getToernooiSpelers(){
+        try {
+            if (model3.getRowCount() > 0) {
+                for (int i = model3.getRowCount() - 1; i > -1; i--) {
+                    model3.removeRow(i);
+                }
+            }
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum from `18146481`.Speler JOIN Betaald on Speler.idSpeler = Betaald.idSpeler JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi GROUP BY Speler.naam";
+            PreparedStatement st = con.prepareStatement(query);
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("idSpeler");
+                String n = rs.getString("naam");
+                String t = rs.getString("geslacht");
+                String e = rs.getString("rating");
+                String g = rs.getString("datum");
+                model3.addRow(new Object[]{id,n,t,e,g});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model3;
+
+    }
+
+
 
 
 }
