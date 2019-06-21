@@ -10,10 +10,6 @@ public class DbConnect {
     private Connection con;
     private Statement st;
     private ResultSet rs;
-    private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
-    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Bezet", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
-    private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Datum"};
-    private String col4[] = {"idMasterclass","bekendeSpeler ", "plaatsen", "beginTijd","EindTijd","datum", "minRating", "prijs"};
     private String col[] = {"ID","Naam","Adres","Postcode","Woonplaats", "Telefoon", "Email", "Geboortedatum","Geslacht","Rating"};
     private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Aantal spelers","Aantal betaald", "Prijs:", "Begintijd","Eindtijd","Begindatum","Locatie","Adres"};
     private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Betaaldatum"};
@@ -118,7 +114,7 @@ public class DbConnect {
                     model2.removeRow(i);
                 }
             }
-            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum, Locatie.naam, Locatie.adres" +
+            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(DISTINCT(Betaald.idSpeler)) as 'Bezet', count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum, Locatie.naam, Locatie.adres" +
                     " from `18146481`.Toernooi " +
                     "left join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
                     "left join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
@@ -510,7 +506,13 @@ public class DbConnect {
                     model3.removeRow(i);
                 }
             }
-            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum from `18146481`.Speler JOIN Betaald on Speler.idSpeler = Betaald.idSpeler JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi WHERE Toernooi.idToernooi = ? GROUP BY Speler.naam;";
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum " +
+                    "from `18146481`.Speler " +
+                    "JOIN Betaald on Speler.idSpeler = Betaald.idSpeler " +
+                    "JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi " +
+                    "WHERE Toernooi.idToernooi = ? " +
+                    "GROUP BY Speler.idSpeler;";
+            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
             st.setObject(1,id);
             rs = st.executeQuery();
