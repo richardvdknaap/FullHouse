@@ -76,6 +76,15 @@ public class Menu {
             }
         });
 
+        JButton inschrijfMaster = new JButton("Inschrijven Masterclass");
+        inschrijfMaster.setPreferredSize(new Dimension(200,50));
+        inschrijfMaster.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new InschrMasterclass();
+            }
+        });
+
 
         c.insets = new Insets(0,0,5,0);
 
@@ -85,16 +94,17 @@ public class Menu {
 
         // Speler weergeven
         c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p.add(speler,c);
+        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p.add(inschrijfMaster,c);
 
         // Toernooi weergeven
-        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p.add(toer,c);
+        c.gridx = 0;c.gridy = 3;c.weightx = 0.5;p.add(toer,c);
 
 
         // Toernooi aanmaken
-        c.gridx = 0;c.gridy = 3;c.weightx = 0.5;p.add(toeraan,c);
+        c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(toeraan,c);
 
         //Loguit
-        c.gridx = 0;c.gridy = 4;c.weightx = 0.5;p.add(loguit,c);
+        c.gridx = 0;c.gridy = 5;c.weightx = 0.5;p.add(loguit,c);
 
         // Admin
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;g.add(inl,c);

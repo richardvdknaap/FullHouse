@@ -24,7 +24,7 @@ public class Speler {
         GridBagConstraints c = new GridBagConstraints();
 
         f.setTitle("FullHouse");
-        f.setSize(1300, 400);
+        f.setSize(1500, 800);
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -36,7 +36,7 @@ public class Speler {
         JTextField t = new JTextField(13);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800,300));
+        scrollPane.setPreferredSize(new Dimension(1000,500));
 
 
         JButton b1 = new JButton("Ophalen");
@@ -115,7 +115,7 @@ public class Speler {
                 }
             }
         });
-        JButton inschrijfMaster = new JButton("Inschrijven Masterclass");
+        /*JButton inschrijfMaster = new JButton("Inschrijven Masterclass");
         inschrijfMaster.setPreferredSize(new Dimension(200,50));
         inschrijfMaster.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +126,7 @@ public class Speler {
                     new InschrMasterclass(id);
                 }
             }
-        });
+        });*/
 
         c.anchor = GridBagConstraints.WEST;
         c.insets = new Insets(0,10,5,0);
@@ -144,7 +144,7 @@ public class Speler {
         c.insets = new Insets(10,0,0,5);
         c.gridx = 1;c.gridy = 9;c.weightx = 0.5;p3.add(b2,c);
         c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p3.add(master,c);
-        c.gridx = 1;c.gridy = 1;c.weightx = 0.5;p3.add(inschrijfMaster,c);
+        //c.gridx = 1;c.gridy = 1;c.weightx = 0.5;p3.add(inschrijfMaster,c);
         c.gridx = 0;c.gridy = 9;c.weightx = 0.5;p3.add(back,c);
         c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p3.add(list,c);
         c.gridx = 1;c.gridy = 2;c.weightx = 0.5;p3.add(inschrijventoer,c);

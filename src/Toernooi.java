@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 public class Toernooi {
 
     private JTable table = new JTable();
+    private JTable table2 = new JTable();
 
 
     public Toernooi(){
@@ -17,15 +18,20 @@ public class Toernooi {
         GridBagConstraints c = new GridBagConstraints();
 
         f.setTitle("FullHouse");
-        f.setSize(1300, 400);
+        f.setSize(1700, 500);
         f.setLocationRelativeTo(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         table = new JTable(connect.getToernooi());
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800,300));
+        scrollPane.setPreferredSize(new Dimension(1200,200));
         scrollPane.setViewportView(table);
+
+        table2 = new JTable(connect.getInzet());
+        JScrollPane scrollPane2 = new JScrollPane(table2);
+        scrollPane2.setPreferredSize(new Dimension(1200,200));
+        scrollPane2.setViewportView(table2);
 
         JButton back = new JButton("Back");
         back.setPreferredSize(new Dimension(200,50));
@@ -49,14 +55,29 @@ public class Toernooi {
             }
         });
 
+        JButton b3= new JButton("Te Betalen Spelers");
+        b3.setPreferredSize(new Dimension(200,50));
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!table.getSelectionModel().isSelectionEmpty()) {
+                    int srow = table.getSelectedRow();
+                    Object id = table.getValueAt(srow, 0);
+                    f.dispose();
+                    new ToernooiBetalen(id);
+                }
+            }
+        });
+
         c.anchor = GridBagConstraints.WEST;
 
         c.insets = new Insets(0,10,5,10);
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p1.add(scrollPane,c);
+        c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p1.add(scrollPane2,c);
 
         c.insets = new Insets(10,0,0,150);
         c.gridx = 0;c.gridy = 0;c.weightx = 0.5;p3.add(b2,c);
-        c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p3.add(back,c);
+        c.gridx = 0;c.gridy = 1;c.weightx = 0.5;p3.add(b3,c);
+        c.gridx = 0;c.gridy = 2;c.weightx = 0.5;p3.add(back,c);
 
 
 
