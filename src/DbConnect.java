@@ -10,10 +10,12 @@ public class DbConnect {
     private Connection con;
     private Statement st;
     private ResultSet rs;
-    private String col[] = {"ID","Naam", "Telefoon", "Email", "Geboortedatum","Rating"};
-    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Bezet", "Prijs:", "Begintijd","Eindtijd","Begindatum"};
-    private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Datum"};
-    private String col4[] = {"idMasterclass","bekendeSpeler ", "plaatsen", "beginTijd","EindTijd","datum", "minRating", "prijs"};
+    private String col[] = {"ID","Naam","Adres","Postcode","Woonplaats", "Telefoon", "Email", "Geboortedatum","Geslacht","Rating"};
+    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Aantal spelers","Aantal betaald", "Prijs:", "Begintijd","Eindtijd","Begindatum","Locatie","Adres"};
+    private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Betaaldatum"};
+    private String col4[] = {"idSpeler","Naam ", "Geslacht", "Rating"};
+    private String col5[] = {"ID","Thema", "Betaalde Spelers","Prijs Deelname", "Totale inleggeld"};
+    private String col6[] = {"ID","Bekende Speler", "Begin Tijd", "Eind Tijd","Datum","Minimale Rating", "Prijs Deelname"};
     private DefaultTableModel model = new DefaultTableModel(col,0){
         @Override
         public boolean isCellEditable(int row, int column){
@@ -38,6 +40,25 @@ public class DbConnect {
             return false;
         }
     };
+    private DefaultTableModel model5 = new DefaultTableModel(col5,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
+    private DefaultTableModel model6 = new DefaultTableModel(col6,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
+    private DefaultTableModel model7 = new DefaultTableModel(col4,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
+
 
 
     public DbConnect() {
@@ -67,11 +88,15 @@ public class DbConnect {
             while (rs.next()) {
                 String id = rs.getString("idSpeler");
                 String n = rs.getString("naam");
+                String a = rs.getString("adres");
+                String p = rs.getString("postcode");
+                String w = rs.getString("woonplaats");
                 String t = rs.getString("telefoon");
                 String e = rs.getString("email");
                 String g = rs.getString("geboortedatum");
+                String ge = rs.getString("geslacht");
                 String r = rs.getString("rating");
-                model.addRow(new Object[]{id,n,t,e,g,r});
+                model.addRow(new Object[]{id,n,a,p,w,t,e,g,ge,r});
 
             }
 
@@ -89,27 +114,30 @@ public class DbConnect {
                     model2.removeRow(i);
                 }
             }
-            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(Betaald.idSpeler) as 'Bezet', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum" +
+            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(DISTINCT(Betaald.idSpeler)) as 'Bezet', count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum, Locatie.naam, Locatie.adres" +
                     " from `18146481`.Toernooi " +
                     "left join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
                     "left join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
+                    "left join `18146481`.Locatie on Locatie.idLocatie = Toernooi.locatie " +
                     "group by Toernooi.idToernooi";
             System.out.println(query);
             PreparedStatement st2 = con.prepareStatement(query);
             rs = st2.executeQuery();
 
             while (rs.next()) {
-                System.out.println(2);
                 String id = rs.getString("idToernooi");
                 String n = rs.getString("Thema");
                 String t = rs.getString("Conditie");
                 String e = rs.getString("maxAantal");
                 String b = rs.getString("Bezet");
+                String bet = rs.getString("Betaald");
                 String g = rs.getString("Prijsdeelname");
                 String r = rs.getString("Begintijd");
                 String z = rs.getString("Eindtijd");
                 String i = rs.getString("beginDatum");
-                model2.addRow(new Object[]{id,n,t,e,b,g,r,z,i});
+                String l = rs.getString("naam");
+                String a = rs.getString("adres");
+                model2.addRow(new Object[]{id,n,t,e,b,bet,g,r,z,i,l,a});
 
             }
 
@@ -117,6 +145,101 @@ public class DbConnect {
             System.out.println(ex);
         }
         return model2;
+
+    }
+    public DefaultTableModel getInzet(){
+        try {
+            if (model5.getRowCount() > 0) {
+                for (int i = model5.getRowCount() - 1; i > -1; i--) {
+                    model5.removeRow(i);
+                }
+            }
+            String query = "select Toernooi.idToernooi, Toernooi.thema, count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, (count(Betaald.datum) * Toernooi.prijsDeelname) as 'Totaal'" +
+                    " from `18146481`.Toernooi " +
+                    "left join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
+                    "left join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
+                    "left join `18146481`.Locatie on Locatie.idLocatie = Toernooi.locatie " +
+                    "group by Toernooi.idToernooi";
+            PreparedStatement st2 = con.prepareStatement(query);
+            rs = st2.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("idToernooi");
+                String n = rs.getString("Thema");
+                String bet = rs.getString("Betaald");
+                String g = rs.getString("Prijsdeelname");
+                String a = rs.getString("Totaal");
+                model5.addRow(new Object[]{id,n,bet,g,a});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model5;
+
+    }
+    public DefaultTableModel getMaster(){
+        try {
+            if (model6.getRowCount() > 0) {
+                for (int i = model6.getRowCount() - 1; i > -1; i--) {
+                    model6.removeRow(i);
+                }
+            }
+            String query = "select Masterclass.idMasterclass, Speler.naam, Masterclass.beginTijd, Masterclass.eindTijd, Masterclass.datum, Masterclass.minRating, Masterclass.prijs " +
+                    " from `18146481`.Masterclass " +
+                    "left join `18146481`.Speler on Speler.idSpeler = Masterclass.bekendeSpeler " +
+                    "group by Masterclass.idMasterclass ";
+            PreparedStatement st2 = con.prepareStatement(query);
+            rs = st2.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("idMasterclass");
+                String n = rs.getString("naam");
+                String bet = rs.getString("beginTijd");
+                String g = rs.getString("eindTijd");
+                String a = rs.getString("datum");
+                String b = rs.getString("minRating");
+                String c = rs.getString("prijs");
+                model6.addRow(new Object[]{id,n,bet,g,a,b,c});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model6;
+
+    }
+    public DefaultTableModel getMasterSpelers(Object rating){
+        try {
+            if (model7.getRowCount() > 0) {
+                for (int i = model7.getRowCount() - 1; i > -1; i--) {
+                    model7.removeRow(i);
+                }
+            }
+
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating " +
+                    "from `18146481`.Speler " +
+                    "WHERE Speler.rating >= ? " +
+                    "GROUP BY Speler.idSpeler;";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setObject(1,rating);
+            rs = st2.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("idSpeler");
+                String n = rs.getString("naam");
+                String bet = rs.getString("geslacht");
+                String g = rs.getString("rating");
+                model7.addRow(new Object[]{id,n,bet,g});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model7;
 
     }
 
@@ -360,13 +483,13 @@ public class DbConnect {
             while (rs.next()) {
                 toerId = rs.getInt("idToernooi");
             }
-            String query2 = "INSERT INTO `18146481`.`Betaald`(`datum`,`idSpeler`,`idToernooi`) " +
-                    "VALUES(?,?,?);";
+            String query2 = "INSERT INTO `18146481`.`Betaald`(`idSpeler`,`idToernooi`) " +
+                    "VALUES(?,?);";
             System.out.println(query2);
             PreparedStatement st2 = con.prepareStatement(query2);
-            st2.setString(1,localDate.toString());
-            st2.setObject(2,id);
-            st2.setInt(3,toerId);
+            //st2.setString(1,localDate.toString());
+            st2.setObject(1,id);
+            st2.setInt(2,toerId);
             st2.executeUpdate();
 
         }catch (Exception ex){
@@ -383,7 +506,13 @@ public class DbConnect {
                     model3.removeRow(i);
                 }
             }
-            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum from `18146481`.Speler JOIN Betaald on Speler.idSpeler = Betaald.idSpeler JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi WHERE Toernooi.idToernooi = ? GROUP BY Speler.naam;";
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating, Betaald.datum " +
+                    "from `18146481`.Speler " +
+                    "JOIN Betaald on Speler.idSpeler = Betaald.idSpeler " +
+                    "JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi " +
+                    "WHERE Toernooi.idToernooi = ? " +
+                    "GROUP BY Speler.idSpeler;";
+            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
             st.setObject(1,id);
             rs = st.executeQuery();
@@ -403,6 +532,42 @@ public class DbConnect {
             System.out.println(ex);
         }
         return model3;
+
+    }
+    public DefaultTableModel getTeBetalenSpelers(Object id){
+        try {
+            if (model4.getRowCount() > 0) {
+                for (int i = model4.getRowCount() - 1; i > -1; i--) {
+                    model4.removeRow(i);
+                }
+            }
+            String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating " +
+                    "from `18146481`.Speler " +
+                    "JOIN Betaald on Speler.idSpeler = Betaald.idSpeler " +
+                    "JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi " +
+                    "WHERE Toernooi.idToernooi = ? AND Betaald.datum is null " +
+                    "GROUP BY Speler.naam;";
+
+
+            System.out.println(query);
+            PreparedStatement st = con.prepareStatement(query);
+            st.setObject(1,id);
+            rs = st.executeQuery();
+
+
+            while (rs.next()) {
+                String id1 = rs.getString("idSpeler");
+                String n = rs.getString("naam");
+                String t = rs.getString("geslacht");
+                String e = rs.getString("rating");
+                model4.addRow(new Object[]{id1,n,t,e});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model4;
 
     }
 
