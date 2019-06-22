@@ -193,38 +193,38 @@ public class DbConnect {
     }
 
     public String getSalt(String user){
-        String salt = "";
-        try{
-            String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
-            PreparedStatement st2 = con.prepareStatement(query);
-            st2.setString(1,user);
-            rs = st2.executeQuery();
-            while (rs.next()){
+                String salt = "";
+                try{
+                    String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
+                    PreparedStatement st2 = con.prepareStatement(query);
+                    st2.setString(1,user);
+                    rs = st2.executeQuery();
+                    while (rs.next()){
 
-               salt = rs.getString("salt");
+                        salt = rs.getString("salt");
+                    }
+                }
+                catch(Exception ex) {
+                    System.out.println(ex);
+                }
+                System.out.println(salt);
+                return salt;
             }
-        }
-        catch(Exception ex) {
-            System.out.println(ex);
-        }
-        System.out.println(salt);
-        return salt;
-    }
 
-    public String getSecpass(String user){
-        String secpass = "";
-        try{
-            String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
-            PreparedStatement st2 = con.prepareStatement(query);
-            st2.setString(1,user);
-            rs = st2.executeQuery();
-            while (rs.next()){
+            public String getSecpass(String user){
+                String secpass = "";
+                try{
+                    String query = "SELECT * FROM `18146481`.`USERS` WHERE USERS.username LIKE ?";
+                    PreparedStatement st2 = con.prepareStatement(query);
+                    st2.setString(1,user);
+                    rs = st2.executeQuery();
+                    while (rs.next()){
 
-                secpass = rs.getString("secPass");
-            }
-        }
-        catch(Exception ex) {
-            System.out.println(ex);
+                        secpass = rs.getString("secPass");
+                    }
+                }
+                catch(Exception ex) {
+                    System.out.println(ex);
         }
         return secpass;
     }
