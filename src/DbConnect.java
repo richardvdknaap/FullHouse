@@ -371,7 +371,7 @@ public class DbConnect {
         }
     }
 
-    public void addToernooi(String t, String c, int a, double p, String b, String e, String d) {
+    public void addToernooi(String t, String c, int a, double p, String b, String e, String d, int r) {
         try {
             String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`,`beginDatum`) " +
                     "VALUES(?,?,?,?,?,?,?);";
@@ -384,6 +384,10 @@ public class DbConnect {
             st2.setString(6,e);
             st2.setString(7,d);
             st2.executeUpdate();
+
+            String query2 = "INSERT INTO `18146481`.`Ronde`(`ronde`,`idToernooi`) " +
+                    "VALUES(?,?);";
+
 
         } catch (Exception ex) {
             System.out.println(ex);
