@@ -221,7 +221,7 @@ public class DbConnect {
 
             String query = "select Speler.idSpeler, Speler.naam, Speler.geslacht, Speler.rating " +
                     "from `18146481`.Speler " +
-                    "WHERE Speler.rating >= ? " +
+                    "WHERE Speler.rating >= ? AND Speler.masterclass is null " +
                     "GROUP BY Speler.idSpeler;";
             PreparedStatement st2 = con.prepareStatement(query);
             st2.setObject(1,rating);
@@ -439,13 +439,19 @@ public class DbConnect {
 
     }
 
-    public void inschijvenMasterclass(Object id){
+    public void inschijvenMasterclass(Object id, Object idSpeler){
 
         try {
             String query = "update `18146481`.`Masterclass` set plaatsen = plaatsen -1 WHERE idMasterclass LIKE ?";
             PreparedStatement st2 = con.prepareStatement(query);
             st2.setObject(1, id);
             st2.executeUpdate();
+
+            String query2 = "update `18146481`.`Speler` set masterclass = ? WHERE Speler.idSpeler = ?";
+            PreparedStatement st3 = con.prepareStatement(query2);
+            st3.setObject(1, id);
+            st3.setObject(2, idSpeler);
+            st3.executeUpdate();
 
         }catch (Exception ex){
             System.out.println(ex);
