@@ -11,11 +11,13 @@ public class DbConnect {
     private Statement st;
     private ResultSet rs;
     private String col[] = {"ID","Naam","Adres","Postcode","Woonplaats", "Telefoon", "Email", "Geboortedatum","Geslacht","Rating"};
-    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Aantal spelers","Aantal betaald", "Prijs:", "Begintijd","Eindtijd","Begindatum","Locatie","Adres"};
+    private String col2[] = {"ID", "Thema", "Conditie","Max Aantal","Aantal spelers","Aantal betaald", "Prijs:", "Begintijd","Eindtijd","Begindatum","Locatie","Adres","Rondes"};
     private String col3[] = {"idSpeler","Naam ", "Geslacht", "Rating","Betaaldatum"};
     private String col4[] = {"idSpeler","Naam ", "Geslacht", "Rating"};
     private String col5[] = {"ID","Thema", "Betaalde Spelers","Prijs Deelname", "Totale inleggeld"};
     private String col6[] = {"ID","Bekende Speler", "Begin Tijd", "Eind Tijd","Datum","Minimale Rating", "Prijs Deelname"};
+    private String col7[] = {"Ronde","Tafel", "Speler"};
+    private String col8[] = {"Speler","Plaats", "Prijzengeld"};
     private DefaultTableModel model = new DefaultTableModel(col,0){
         @Override
         public boolean isCellEditable(int row, int column){
@@ -53,6 +55,18 @@ public class DbConnect {
         }
     };
     private DefaultTableModel model7 = new DefaultTableModel(col4,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
+    private DefaultTableModel model8 = new DefaultTableModel(col7,0){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
+    private DefaultTableModel model9 = new DefaultTableModel(col8,0){
         @Override
         public boolean isCellEditable(int row, int column){
             return false;
@@ -114,11 +128,12 @@ public class DbConnect {
                     model2.removeRow(i);
                 }
             }
-            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(DISTINCT(Betaald.idSpeler)) as 'Bezet', count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum, Locatie.naam, Locatie.adres" +
+            String query = "select Toernooi.idToernooi, Toernooi.thema, Toernooi.conditie, Toernooi.maxAantal, count(DISTINCT(Betaald.idSpeler)) as 'Bezet', count(Betaald.datum) as 'Betaald', Toernooi.prijsDeelname, Toernooi.beginTijd, Toernooi.eindTijd, Toernooi.beginDatum, Locatie.naam, Locatie.adres, max(Ronde.ronde) as Ronde" +
                     " from `18146481`.Toernooi " +
                     "left join `18146481`.Betaald on Betaald.idToernooi = Toernooi.idToernooi " +
                     "left join `18146481`.Speler on Speler.idSpeler = Betaald.idSpeler " +
                     "left join `18146481`.Locatie on Locatie.idLocatie = Toernooi.locatie " +
+                    "left join `18146481`.Ronde on Ronde.idToernooi = Toernooi.idToernooi " +
                     "group by Toernooi.idToernooi";
             System.out.println(query);
             PreparedStatement st2 = con.prepareStatement(query);
@@ -137,7 +152,8 @@ public class DbConnect {
                 String i = rs.getString("beginDatum");
                 String l = rs.getString("naam");
                 String a = rs.getString("adres");
-                model2.addRow(new Object[]{id,n,t,e,b,bet,g,r,z,i,l,a});
+                String ro = rs.getString("Ronde");
+                model2.addRow(new Object[]{id,n,t,e,b,bet,g,r,z,i,l,a,ro});
 
             }
 
@@ -373,6 +389,8 @@ public class DbConnect {
 
     public void addToernooi(String t, String c, int a, double p, String b, String e, String d, int r) {
         try {
+            int idtafel = 0;
+            int id = 0;
             String query = "INSERT INTO `18146481`.`Toernooi`(`thema`,`conditie`,`maxAantal`,`prijsDeelname`,`beginTijd`,`eindTijd`,`beginDatum`) " +
                     "VALUES(?,?,?,?,?,?,?);";
             PreparedStatement st2 = con.prepareStatement(query);
@@ -385,9 +403,36 @@ public class DbConnect {
             st2.setString(7,d);
             st2.executeUpdate();
 
-            String query2 = "INSERT INTO `18146481`.`Ronde`(`ronde`,`idToernooi`) " +
-                    "VALUES(?,?);";
-
+            String query2 = "SELECT Toernooi.idToernooi from `18146481`.Toernooi " +
+                    "where Toernooi.thema = ? and Toernooi.conditie = ? and Toernooi.maxAantal = ? and Toernooi.prijsDeelname = ? and Toernooi.beginTijd = ? and Toernooi.eindTijd = ? and Toernooi.beginDatum = ?;";
+            PreparedStatement st3 = con.prepareStatement(query2);
+            st3.setString(1,t);
+            st3.setString(2,c);
+            st3.setInt(3,a);
+            st3.setDouble(4,p);
+            st3.setString(5,b);
+            st3.setString(6,e);
+            st3.setString(7,d);
+            rs = st3.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("idToernooi");
+            }
+            String query4 = "SELECT min(Tafel.idTafel) as idTafel from `18146481`.Tafel " +
+                    "where beschikbaar ='j' ";
+            PreparedStatement st5 = con.prepareStatement(query4);
+            rs = st5.executeQuery();
+            while (rs.next()) {
+                idtafel = rs.getInt("idTafel");
+            }
+            String query3 = "INSERT INTO `18146481`.`Ronde`(`ronde`,`idToernooi`,`idTafel`) " +
+                    "VALUES(?,?,?);";
+            PreparedStatement st4 = con.prepareStatement(query3);
+            for (int x = 1; x<=r; x++){
+                st4.setInt(1,x);
+                st4.setInt(2,id);
+                st4.setInt(3,idtafel);
+                st4.executeUpdate();
+            }
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -610,5 +655,113 @@ public class DbConnect {
         return model3;
 
     }
+    public DefaultTableModel getTafel(Object id){
+        try {
+            if (model8.getRowCount() > 0) {
+                for (int i = model8.getRowCount() - 1; i > -1; i--) {
+                    model8.removeRow(i);
+                }
+            }
+            String query = "select Ronde.ronde, Ronde.idTafel, Speler.naam " +
+                    "from `18146481`.Ronde " +
+                    "JOIN Speler on Speler.idTafel = Ronde.idTafel " +
+                    "JOIN Betaald on Speler.idSpeler = Betaald.idSpeler " +
+                    "JOIN Toernooi on Toernooi.idToernooi = Ronde.idToernooi AND Betaald.idToernooi = Toernooi.idToernooi " +
+                    "WHERE Toernooi.idToernooi = ? " +
+                    "GROUP BY Speler.naam;";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setObject(1,id);
+            rs = st.executeQuery();
+
+
+            while (rs.next()) {
+                String r = rs.getString("ronde");
+                String n = rs.getString("idTafel");
+                String t = rs.getString("naam");
+                model8.addRow(new Object[]{r,n,t});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model8;
 
     }
+    public void winnaar(Object id, int a, Object idToernooi){
+        try {
+
+            String query = "update `18146481`.Betaald " +
+                    "SET Betaald.plaats = CASE WHEN ? = 1 THEN 1 ELSE 2 end " +
+                    "WHERE Betaald.idSpeler = ? AND Betaald.idToernooi = ?;";
+            PreparedStatement st2 = con.prepareStatement(query);
+            st2.setInt(1,a);
+            st2.setObject(2,id);
+            st2.setObject(3,idToernooi);
+
+            st2.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public DefaultTableModel getWinnaar(Object id){
+        try {
+            int aantal = 0;
+
+            if (model9.getRowCount() > 0) {
+                for (int i = model9.getRowCount() - 1; i > -1; i--) {
+                    model9.removeRow(i);
+                }
+            }
+            String query2 = "Select count(*) as aantal FROM `18146481`.Betaald " +
+                    "WHERE Betaald.idToernooi = ? AND Betaald.datum is not NULL;";
+
+            PreparedStatement st2 = con.prepareStatement(query2);
+            st2.setObject(1,id);
+            rs = st2.executeQuery();
+
+            while (rs.next()){
+                 aantal = rs.getInt("aantal");
+            }
+
+
+
+            String query = "Select Speler.naam, Betaald.plaats, " +
+                    "CASE WHEN Betaald.Plaats = 1 then ((? * Toernooi.prijsDeelname)/100)*40 " +
+                    "WHEN  Betaald.Plaats = 2 then ((? * Toernooi.prijsDeelname)/100)*25 " +
+                    "else 0 END as prijs " +
+                    "FROM `18146481`.Speler " +
+                    "JOIN Betaald on Speler.idSpeler = Betaald.idSpeler " +
+                    "JOIN Toernooi on Toernooi.idToernooi = Betaald.idToernooi " +
+                    "WHERE Betaald.idToernooi = ? " +
+                    "GROUP BY Speler.naam " +
+                    "ORDER by prijs desc ;";
+            PreparedStatement st = con.prepareStatement(query);
+
+            st.setInt(1,aantal);
+            st.setInt(2,aantal);
+            st.setObject(3,id);
+
+            System.out.println(query);
+            rs = st.executeQuery();
+
+
+            while (rs.next()) {
+                String r = rs.getString("naam");
+                String n = rs.getString("plaats");
+                String t = rs.getString("prijs");
+                model9.addRow(new Object[]{r,n,t});
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return model9;
+
+    }
+
+}
