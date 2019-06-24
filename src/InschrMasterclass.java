@@ -25,11 +25,11 @@ public class InschrMasterclass {
 
             table = new JTable(connect.getMaster());
             JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setPreferredSize(new Dimension(1200,200));
+            scrollPane.setPreferredSize(new Dimension(1100,200));
             scrollPane.setViewportView(table);
 
             JScrollPane scrollPane2 = new JScrollPane(table2);
-            scrollPane2.setPreferredSize(new Dimension(1200,200));
+            scrollPane2.setPreferredSize(new Dimension(1100,200));
 
             JButton back = new JButton("Back");
             back.setPreferredSize(new Dimension(200,50));
