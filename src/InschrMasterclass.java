@@ -56,11 +56,16 @@ public class InschrMasterclass {
             b3.setPreferredSize(new Dimension(200,50));
             b3.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (!table.getSelectionModel().isSelectionEmpty()) {
+                    if (!table.getSelectionModel().isSelectionEmpty() && !table2.getSelectionModel().isSelectionEmpty()) {
                         int srow = table.getSelectedRow();
                         Object id = table.getValueAt(srow, 0);
-                        f.dispose();
-                        new ToernooiSpelers(id);
+                        int srow2 = table.getSelectedRow();
+                        Object rating = table.getValueAt(srow2, 5);
+                        int srow3 = table2.getSelectedRow();
+                        Object idSpeler = table2.getValueAt(srow3, 0);
+                        connect.inschijvenMasterclass(id, idSpeler);
+                        table2 = new JTable(connect.getMasterSpelers(rating));
+                        scrollPane2.setViewportView(table2);
                     }
                 }
             });

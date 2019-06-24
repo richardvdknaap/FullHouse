@@ -26,7 +26,8 @@ public class RegToernooi {
     JLabel l4 = new JLabel("prijsDeelname: ");
     JLabel l5 = new JLabel("beginTijd: ");
     JLabel l6 = new JLabel("eindTijd: ");
-    JLabel l7 = new JLabel("Datum");
+    JLabel l7 = new JLabel("Datum: ");
+    JLabel l8 = new JLabel("Aantal Rondes: ");
 
     JTextField t1 = new JTextField(13);
     JComboBox t2 = new JComboBox(genderList);
@@ -35,6 +36,7 @@ public class RegToernooi {
     JTextField t5 = new JTextField(13);
     JTextField t6 = new JTextField(13);
     JTextField t7 = new JTextField(13);
+    JTextField t8 = new JTextField(13);
 
         JButton reg = new JButton("Registreren");
         reg.setPreferredSize(new Dimension(150,50));
@@ -47,6 +49,7 @@ public class RegToernooi {
                 String i5 = t5.getText();
                 String i6 = t6.getText();
                 String i7 = t7.getText();
+                int i8 = Integer.parseInt(t8.getText());
                 String i2 = "";
                 if(t2.getSelectedIndex() == 1){
                     i2 = "M";
@@ -59,7 +62,7 @@ public class RegToernooi {
                 }
 
 
-                connect.addToernooi(i1,i2,i3,i4,i5,i6,i7);
+                connect.addToernooi(i1,i2,i3,i4,i5,i6,i7,i8);
             }
         });
         JButton back = new JButton("Back");
@@ -88,6 +91,8 @@ public class RegToernooi {
         c.gridx = 1; c.gridy = 5; p1.add(t6,c);
         c.gridx = 0; c.gridy = 6; p1.add(l7,c);
         c.gridx = 1; c.gridy = 6; p1.add(t7,c);
+        c.gridx = 0; c.gridy = 7; p1.add(l8,c);
+        c.gridx = 1; c.gridy = 7; p1.add(t8,c);
 
 
 
